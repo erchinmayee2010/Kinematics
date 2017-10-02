@@ -1,0 +1,93 @@
+div.plumHome {
+    
+}
+
+div.container {
+	width: 100%;	
+}
+
+div.container-wrapper{
+	min-height: 250px;
+	overflow: hidden;
+	padding: 2%;
+}
+
+div.float-left{
+	float: left; 
+	width: 30%;
+}
+
+div.float-right{
+	float: right;
+	width: 60%;
+}
+
+div.clear-both{
+	clear: both;
+}
+
+.row-wrapper {
+	width: 100%;
+	padding: 10px;	
+}
+
+.row {
+	clear:both; 
+	float:left;	
+	.header {
+		width: 100%;
+		font-size: 20px;
+		padding-bottom: 10px;
+		font-weight: bold;
+		span:{
+
+		}
+	}
+}
+.column {
+    padding: 10px;
+    text-align: justify;
+    min-height: 42px;
+    .header{
+		font-size: 14px;
+	}
+}
+
+.next-child {
+	clear:both; 
+	float:left;	
+	padding-bottom: 4px;
+	font-weight: bold;	
+}
+
+div.submitWrapper  {
+   text-align: center;    
+}  
+
+.errorMsg{
+	font-size: 12px;
+	color: red;
+}
+
+.kinematics-option{
+	padding-top: 10px;
+}
+
+.formulaText{
+	font-weight: normal;
+}
+
+#kinematicsChart{
+	width: 96%;
+	height: 400px;
+	padding-left: 2%;
+	padding-right: 2%;
+}
+
+.container-formula-wrapper{
+	min-height: 300px;
+	width: 96%;
+	padding-left: 4%;
+	padding-right: 4%;
+	padding-top: 4%;
+}

@@ -1,0 +1,156 @@
+<div class="tyn-home">
+    <div class="container-formula-wrapper">
+    	<div class="container row">        
+			<div class="column float-left">				
+				<span class="header next-child"> 
+					<span i18n>Select the Kinematics to calculate</span> 
+				</span>
+			    <select class="next-child" type="number" [(ngModel)]="selectedParam" (ngModelChange)="setOutputParam()">
+			      <option *ngFor="let parameter of outputMap" [ngValue]="parameter">{{parameter.name}}</option>
+			    </select>
+
+			    <span class="float-right" *ngIf="selectedParam.id > 0 && kinematicsValue != null"> 
+					<span>
+						<label>&nbsp;&nbsp;  = </label>
+						<span i18n>{{kinematicsValue }}</span> 
+						<span *ngIf="selectedParam.id == 1">m</span>
+						<span *ngIf="selectedParam.id == 2">m/sec</span>
+						<span *ngIf="selectedParam.id == 3">m/sec</span>
+						<span *ngIf="selectedParam.id == 4">m/sec<sup>2</sup></span>
+						<span *ngIf="selectedParam.id == 5">sec</span>
+					</span>
+				</span>
+				<div class="row next-child"> 
+					<div *ngIf="selectedParam.id == 1" class="kinematics-option">
+						<span class="header next-child " *ngFor="let d of distanceFormula"> 
+	                		<input type="radio" name="radiogroup" (click)="setOutputFormula(d)" >
+	                		<span class="formulaText" [innerHTML]="d.name"></span>			
+						</span>
+					</div>
+					<div *ngIf="selectedParam.id == 2" class="kinematics-option">
+						<span class="header next-child " *ngFor="let d of iVelocityFormula">
+		                	<input type="radio" name="radiogroup" (click)="setOutputFormula(d)">
+		                	<span class="formulaText" [innerHTML]="d.name"></span>			
+						</span>
+					</div>
+					<div *ngIf="selectedParam.id == 3" class="kinematics-option">
+						<span class="header next-child " *ngFor="let d of fVelocityFormula">
+		                	<input type="radio" name="radiogroup" (click)="setOutputFormula(d)">
+		                	<span class="formulaText" [innerHTML]="d.name"></span>			
+						</span>
+					</div>
+					<div *ngIf="selectedParam.id == 4" class="kinematics-option">
+						<span class="header next-child " *ngFor="let d of accelerationFormula"> 
+		                	<input type="radio" name="radiogroup" (click)="setOutputFormula(d)">
+		                	<span class="formulaText" [innerHTML]="d.name"></span>			
+						</span>
+					</div>
+					<div *ngIf="selectedParam.id == 5" class="kinematics-option">
+						<span class="header next-child " *ngFor="let d of timeFormula">                	
+		                	<span class="formulaText" [innerHTML]="d.name"></span>			
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="column float-right" *ngIf="linearModelValue">
+				<div class="row header">
+					<span i18n class="center-align">Please provide following details</span> 
+				</div> 
+				<div class="row header alert alert-danger" *ngIf="kinematicsError" >
+					<span i18n class="errorMsg">{{kinematicsError}}</span> 
+				</div> 
+
+				<form [formGroup]="kinematicsForm" (ngSubmit)="onSubmit()">
+					<div class="container row" *ngIf="linearModelValue.distance.isVisible">
+						<div class="column float-left">	
+							<span i18n> {{linearModelValue.distance.name}} </span> 
+						</div>
+						<div class="column float-right">
+							<input type="text" [(ngModel)]="linearModelValue.distance.value" [attr.required]="isRequired" id="distance" formControlName="distance" name="distance"/> 
+							<span>m</span>
+							<div *ngIf="kinematicsForm.get('distance').hasError('required') && submitted " class="errorMsg">
+								{{linearModelValue.distance.name}} is required
+							</div>
+							<div *ngIf="kinematicsForm.get('distance').hasError('pattern') " class="errorMsg">
+								{{linearModelValue.distance.name}} should be a number
+							</div>
+						</div>					
+					</div>
+					<div class="container row" *ngIf="linearModelValue.initialVelocity.isVisible">
+						<div class="column float-left">	
+							<span i18n> {{linearModelValue.initialVelocity.name}} </span>
+						</div>
+						<div class="column float-right">
+							<input type="text" [(ngModel)]="linearModelValue.initialVelocity.value" [attr.required]="linearModelValue.initialVelocity.isRequired" id="initialVelocity"  formControlName="initialVelocity" name="initialVelocity" />
+							<span>m/sec</span>
+							<div *ngIf="kinematicsForm.get('initialVelocity').hasError('required') && submitted " class="errorMsg">
+								{{linearModelValue.initialVelocity.name}}  is required
+							</div>
+							<div *ngIf="kinematicsForm.get('initialVelocity').hasError('pattern') " class="errorMsg">
+								{{linearModelValue.initialVelocity.name}}  should be a number
+							</div>							
+						</div>					
+					</div>
+					<div class="container row" *ngIf="linearModelValue.finalVelocity.isVisible">
+						<div class="column float-left">	
+							<span i18n> {{linearModelValue.finalVelocity.name}} </span>
+						</div>
+						<div class="column float-right">
+							<input type="text" [(ngModel)]="linearModelValue.finalVelocity.value" [attr.required]="linearModelValue.finalVelocity.isRequired" id="finalVelocity" formControlName="finalVelocity" name="finalVelocity"/>
+							<span>m/sec</span>
+							<div *ngIf="kinematicsForm.get('finalVelocity').hasError('required') && submitted " class="errorMsg">
+								{{linearModelValue.finalVelocity.name}} is required
+							</div>
+							<div *ngIf="kinematicsForm.get('finalVelocity').hasError('pattern') " class="errorMsg">
+								{{linearModelValue.finalVelocity.name}} should be a number
+							</div>
+						</div>					
+					</div>
+					<div class="container row" *ngIf="linearModelValue.acceleration.isVisible">
+						<div class="column float-left">	
+							<span i18n> {{linearModelValue.acceleration.name}} </span>
+						</div>
+						<div class="column float-right">
+							<input type="text" [(ngModel)]="linearModelValue.acceleration.value" [attr.required]="linearModelValue.acceleration.isRequired" id="acceleration" formControlName="acceleration" name="acceleration" >
+							<span>m/sec<sup>2</sup></span>
+							<div *ngIf="kinematicsForm.get('acceleration').hasError('required') && submitted " class="errorMsg">
+								{{linearModelValue.acceleration.name}} is required
+							</div>
+							<div *ngIf="kinematicsForm.get('acceleration').hasError('pattern') " class="errorMsg">
+								{{linearModelValue.acceleration.name}} should be a number
+							</div>
+						</div>					
+					</div>
+					<div class="container row" *ngIf="linearModelValue.timeTaken.isVisible">
+						<div class="column float-left">	
+							<span i18n> {{linearModelValue.timeTaken.name}} </span>
+						</div>
+						<div class="column float-right">
+							<input type="text" [(ngModel)]="linearModelValue.timeTaken.value" [attr.required]="linearModelValue.timeTaken.isRequired" id="timeTaken" formControlName="timeTaken" name="timeTaken"/>
+							<span>sec</span>
+							<div *ngIf="kinematicsForm.get('timeTaken').hasError('required') && submitted " class="errorMsg">
+								{{linearModelValue.timeTaken.name}} is required
+							</div>
+							<div *ngIf="kinematicsForm.get('timeTaken').hasError('pattern') " class="errorMsg">
+								{{linearModelValue.timeTaken.name}} should be a number
+							</div>	
+						</div>
+								
+					</div>
+					<div class="row header submitWrapper">
+						<button type="submit" class="btn btn-primary" >Submit</button>
+					</div>
+				</form>				
+			</div>
+		</div>
+		<div clear="clear-both">
+		</div>  	    	
+    </div>
+    <div id="container-wrapper">
+    	<div id="chart-container row"> 
+    		<div id="kinematicsChart">
+			    
+			</div>
+	    </div>
+    </div>		    		 
+</div>
