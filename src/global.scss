@@ -1,0 +1,13 @@
+/**
+ * Global Application Styles
+ */
+
+@import "constants";
+
+body {
+	/*background-color: lightblue;*/
+	background-image: url("./app/images/Mystic.jpg");
+	color: #ffffff;
+	font-family: $primary-font;
+	font-size: $primary-font-size;
+}
